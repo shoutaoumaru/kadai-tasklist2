@@ -1,6 +1,7 @@
 class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
-
+  
+  
   def index
     @tasks = Task.all.page(params[:page]).per(5)
   end
@@ -19,6 +20,7 @@ class TasksController < ApplicationController
       flash[:success] = "タスクが投稿されました"
       redirect_to @task
     else
+       @task = current_user.tasks.order(id: :desc).page(params[:page])
       flash[:danger] = "タスクが投稿されません"
       render :new
     end
@@ -43,6 +45,7 @@ class TasksController < ApplicationController
     flash[:success] = "タスクが削除されました"
     redirect_to tasks_url
   end
+  
   private
   
   def set_task
@@ -52,4 +55,6 @@ class TasksController < ApplicationController
   def task_params
     params.require(:task).permit(:content, :status)
   end
+  
+ 
 end
