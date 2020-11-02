@@ -3,7 +3,7 @@ class TasksController < ApplicationController
   before_action :correct_user, only: [:show, :edit, :update, :destroy]
   
   def index
-      current_user.tasks.build  # form_with 用
+      current_user.tasks
       @tasks = current_user.tasks.order(id: :desc).page(params[:page])
   end
  
@@ -19,7 +19,7 @@ class TasksController < ApplicationController
     
     if @task.save
       flash[:success] = "タスクが投稿されました"
-      redirect_to tasks_url # 変更箇所
+      redirect_to tasks_url 
     else
       @tasks = current_user.tasks.order(id: :desc).page(params[:page])
       flash[:danger] = "タスクが投稿されません"
