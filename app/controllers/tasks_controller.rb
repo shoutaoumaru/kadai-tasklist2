@@ -18,11 +18,11 @@ class TasksController < ApplicationController
   end
   
   def create
-    @task = current_user.tasks.build(task_params)
+    @task = current_user.tasks.new(task_params) # 変更箇所
     
     if @task.save
       flash[:success] = "タスクが投稿されました"
-      redirect_to @task
+      redirect_to tasks_url # 変更箇所
     else
       @tasks = current_user.tasks.order(id: :desc).page(params[:page])
       flash[:danger] = "タスクが投稿されません"
@@ -52,7 +52,7 @@ class TasksController < ApplicationController
   private
   
   def set_task
-    @task = Task.find_by(params[:id])
+     @task = Task.find(params[:id])
   end
 
   # Strong Parameter
