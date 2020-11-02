@@ -46,13 +46,13 @@ class TasksController < ApplicationController
   def destroy
     @task.destroy
     flash[:success] = "タスクが削除されました"
-    redirect_back(fallback_location: root_path)
+    redirect_to root_url
   end
   
   private
   
   def set_task
-     @task = Task.find(params[:id])
+     @task = current_user.tasks.find(params[:id])  #Task.find(params[:id])
   end
 
   # Strong Parameter
